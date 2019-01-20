@@ -1,0 +1,47 @@
+/**
+* jet-sdk css
+* ======
+* @author 洪波
+* @version 19.01.11
+*/
+
+.button-green,
+.button-red,
+.button-orange,
+.button-blue {
+	color: white;
+	border-radius: 4px;
+	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.button-green {
+	background: rgb(28, 184, 65); /* this is a green */
+}
+
+.button-red {
+	background: rgb(202, 60, 60); /* this is a maroon */
+}
+
+.button-orange {
+	background: rgb(223, 117, 20); /* this is an orange */
+}
+
+.button-blue {
+	background: rgb(66, 184, 221); /* this is a light blue */
+}
+
+.button-xs {
+	font-size: 70%;
+}
+
+.button-sm {
+	font-size: 85%;
+}
+
+.button-lg {
+	font-size: 110%;
+}
+
+.button-xl {
+	font-size: 125%;
+}

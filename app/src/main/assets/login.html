@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Jet Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <asset>pure-min.css</asset>
+    <asset>jet.css</asset>
+    <asset>vue-min.js</asset>
+</head>
+<body>
+    <div id="app">
+        <h3>欢迎登录Jet.</h3>
+        <div><small style="color:#999;">{{message}}</small></div>
+        <form class="pure-form pure-form-stacked" v-on:submit.prevent="login()">
+            <label>用户：</label>
+            <input type="text" placeholder="填写账号" v-model="username" />
+            <label>密码：</label>
+            <input type="password" placeholder="填写密码" v-model="password" />
+            <button type="submit" class="pure-button button-green">注册</button>
+            <a href="app-page:back" class="pure-button">关闭</a>
+        </form>
+    </div>
+</body>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            message: '等待注册',
+            username: '',
+            password: ''
+        },
+        methods: {
+            login: function(e) {
+                this.message = "user: "+ this.username + ' 已提交信息';
+            }
+        }
+    });
+</script>
+</html>
