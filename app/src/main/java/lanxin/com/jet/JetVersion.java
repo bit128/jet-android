@@ -22,17 +22,15 @@ import java.util.concurrent.Executors;
 
 public class JetVersion {
 
-    public static String CONFIG_NAME    = "version.json";
-    public static String SYNC_LIST      = "sync_list";
-
     private JetResource jetResource;
-    protected JSONObject localConfig;
+    //protected JSONObject localConfig;
 
     //文件下载任务线程池（并行3组线程）
     protected ExecutorService executorService = Executors.newFixedThreadPool(3);
 
     public JetVersion(JetResource jetResource) {
         this.jetResource = jetResource;
+        /*
         String configFile = jetResource.cachePath + CONFIG_NAME;
         File cachePath = new File(jetResource.cachePath);
         if (! cachePath.exists()) {
@@ -56,7 +54,7 @@ public class JetVersion {
                     e.printStackTrace();
                 }
             }
-        }
+        }*/
     }
 
     /**
@@ -72,12 +70,14 @@ public class JetVersion {
                     try {
                         //获取本地版本同步列表
                         JSONObject localList = null;
-                        if (localConfig != null) {
-                            localList = localConfig.getJSONObject(SYNC_LIST);
+                        if (jetResource.localConfig != null) {
+                            localList = jetResource.localConfig.getJSONObject(jetResource.SYNC_LIST);
+                        } else {
+                            Log.i("====>", "没有配置文件");
                         }
                         //获取线上版本同步列表
                         JSONObject onlineConfig = new JSONObject(result);
-                        JSONObject syncList = onlineConfig.getJSONObject(SYNC_LIST);
+                        JSONObject syncList = onlineConfig.getJSONObject(jetResource.SYNC_LIST);
                         Iterator syncListKeys = syncList.keys();
                         while (syncListKeys.hasNext()) {
                             String file = syncListKeys.next().toString();
@@ -91,7 +91,7 @@ public class JetVersion {
                         }
                         //更新本地版本库
                         if (changeConfig) {
-                            File file = new File(jetResource.cachePath + CONFIG_NAME);
+                            File file = new File(jetResource.cachePath + jetResource.CONFIG_NAME);
                             file.createNewFile();
                             FileOutputStream os = new FileOutputStream(file);
                             os.write(result.getBytes("UTF-8"));

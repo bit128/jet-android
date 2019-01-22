@@ -6,6 +6,9 @@ import android.content.pm.PackageManager;
 import android.os.Environment;
 import android.util.Log;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -18,16 +21,21 @@ import java.util.regex.Pattern;
 public class JetResource {
 
     public static String DEFAULT_PAGE   = "app-page:home";
+    public static String CONFIG_NAME    = "version.json";
+    public static String SYNC_LIST      = "sync_list";
+
     public String serverHost;
     public boolean onlineSync           = false;
     public String cachePath             = "";
 
     private Context context;
     public static JetResource jetResource;
+    public JSONObject localConfig;
 
     public static JetResource getInstance(Context context) {
         if (jetResource == null) {
             jetResource = new JetResource(context);
+
         } else {
             jetResource.context = context;
         }
@@ -49,6 +57,25 @@ public class JetResource {
                         cachePath = Environment.getExternalStorageDirectory().toString();
                         if (! cachePath.equals("")) {
                             cachePath += "/" + context.getPackageName() + "/caches/";
+                            //加载本地配置文件
+                            File file = new File(cachePath + CONFIG_NAME);
+                            if (file.exists()) {
+                                BufferedReader bufferedReader;
+                                StringBuilder stringBuilder = new StringBuilder();
+                                try {
+                                    bufferedReader = new BufferedReader(new FileReader(file));
+                                    String read;
+                                    while ((read = bufferedReader.readLine()) != null) {
+                                        stringBuilder.append(read);
+                                    }
+                                    bufferedReader.close();
+                                    if (! stringBuilder.toString().equals("")) {
+                                        localConfig = new JSONObject(stringBuilder.toString());
+                                    }
+                                } catch (IOException | JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
                         } else {
                             onlineSync = false;
                         }
