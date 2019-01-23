@@ -28,6 +28,9 @@ public class ActivityTemp extends Activity {
         setContentView(R.layout.activity_temp);
         webView = findViewById(R.id.webView);
         webView.getSettings().setJavaScriptEnabled(true);
+        //绑定桥接器
+        new JetBridge(this, webView);
+        //页面路由
         route();
         //加载页面内容
         loadPageContent();
