@@ -7,10 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <asset>pure-min.css</asset>
     <asset>jet.css</asset>
+    <asset>jet.js</asset>
     <asset>vue-min.js</asset>
 </head>
 <body>
     <div id="app">
+        <p>
+            <img src="app-local:jet-icon.png" class="pure-image" style="width:80px;" />
+        </p>
         <h3>欢迎登录Jet.</h3>
         <div><small style="color:#999;">{{message}}</small></div>
         <form class="pure-form pure-form-stacked" v-on:submit.prevent="login()">
@@ -19,11 +23,15 @@
             <label>密码：</label>
             <input type="password" placeholder="填写密码" v-model="password" />
             <button type="submit" class="pure-button button-green">注册</button>
-            <a href="app-page:back" class="pure-button">关闭</a>
         </form>
+        <p>
+            <a v-on:click="alertTest()" class="pure-button button-orange">弹窗测试</a>
+            <a href="app-page:back" class="pure-button">关闭页面</a>
+        </p>
     </div>
 </body>
 <script>
+    const jet = new Jet();
     new Vue({
         el: '#app',
         data: {
@@ -34,6 +42,12 @@
         methods: {
             login: function(e) {
                 this.message = "user: "+ this.username + ' 已提交信息';
+                jet.httpRequest(jet.apiHost+'getTest', {username:this.username}, function(res){
+                    alert(res);
+                });
+            },
+            alertTest: function(e) {
+                alert('----> 这是来自js的弹窗');
             }
         }
     });

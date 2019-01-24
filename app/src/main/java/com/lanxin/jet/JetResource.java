@@ -124,6 +124,16 @@ public class JetResource {
                         +loadFile(matcher.group(1))+"</script>");
             }
         }
+        //注入页面参数
+        if (! pageParams.equals("")) {
+            String paramList[] = pageParams.split("&");
+            for (String item : paramList) {
+                int j = item.indexOf("=");
+                if (j != -1) {
+                    content = content.replace("#"+item.substring(0,j)+"#", item.substring(j+1));
+                }
+            }
+        }
         return content;
     }
 
