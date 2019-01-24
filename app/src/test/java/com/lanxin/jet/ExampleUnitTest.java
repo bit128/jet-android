@@ -1,4 +1,4 @@
-package lanxin.com.jet;
+package com.lanxin.jet;
 
 import org.junit.Test;
 

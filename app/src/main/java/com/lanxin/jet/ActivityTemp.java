@@ -1,9 +1,14 @@
-package lanxin.com.jet;
+package com.lanxin.jet;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.webkit.JsResult;
+import android.webkit.WebChromeClient;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -14,6 +19,7 @@ import java.io.InputStream;
 public class ActivityTemp extends Activity {
 
     protected WebView webView;
+    protected AlertDialog alertDialog;
     protected JetResource jetResource;
 
     protected String pageUrl;
@@ -28,10 +34,10 @@ public class ActivityTemp extends Activity {
         setContentView(R.layout.activity_temp);
         webView = findViewById(R.id.webView);
         webView.getSettings().setJavaScriptEnabled(true);
-        //绑定桥接器
-        new JetBridge(this, webView);
+        //绑定原生js弹窗
+        bindJSWindow();
         //页面路由
-        route();
+        pageRoute();
         //加载页面内容
         loadPageContent();
     }
@@ -47,7 +53,7 @@ public class ActivityTemp extends Activity {
     /**
      * 资源路由器
      */
-    private void route() {
+    private void pageRoute() {
         webView.setWebViewClient(new WebViewClient(){
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -86,6 +92,75 @@ public class ActivityTemp extends Activity {
                     }
                 }
                 return super.shouldInterceptRequest(view, url);
+            }
+        });
+    }
+
+    /**
+     * 绑定原生js弹窗
+     */
+    private void bindJSWindow() {
+
+        webView.setWebChromeClient(new WebChromeClient(){
+
+            @Override
+            public boolean onJsAlert(WebView view, String url, String message,JsResult result) {
+
+                final AlertDialog.Builder alert = new AlertDialog.Builder(ActivityTemp.this);
+                alert.setMessage(message);
+                alert.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                alertDialog = alert.create();
+                if (! ActivityTemp.this.isDestroyed()) {
+                    alertDialog.show();
+                }
+                result.confirm();
+                return true;
+            }
+
+            @Override
+            public boolean onJsConfirm(WebView view, String url, String message, final JsResult result) {
+
+                final AlertDialog.Builder alert = new AlertDialog.Builder(ActivityTemp.this);
+                alert.setMessage(message);
+                alert.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        result.confirm();
+                    }
+                });
+                alert.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        result.cancel();
+                    }
+                });
+                //屏蔽点击空白窗口消失问题
+                alert.setCancelable(false);
+                //屏蔽全部按键，防止返回键关闭窗口
+                alert.setOnKeyListener(new DialogInterface.OnKeyListener() {
+                    @Override
+                    public boolean onKey(DialogInterface dialogInterface, int i, KeyEvent keyEvent) {
+                        return true;
+                    }
+                });
+                alertDialog = alert.create();
+                if (! ActivityTemp.this.isDestroyed()) {
+                    alertDialog.show();
+                }
+                return true;
+            }
+
+            @Override
+            public void onCloseWindow(WebView window) {
+                super.onCloseWindow(window);
+                Log.i("---->", "close the window.");
             }
         });
     }

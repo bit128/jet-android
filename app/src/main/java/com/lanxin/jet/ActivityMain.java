@@ -1,4 +1,4 @@
-package lanxin.com.jet;
+package com.lanxin.jet;
 
 import android.Manifest;
 import android.annotation.SuppressLint;

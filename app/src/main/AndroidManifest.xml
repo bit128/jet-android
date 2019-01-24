@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="lanxin.com.jet">
+    package="com.lanxin.jet">
 
     <application
-        android:name=".MyApplication"
+        android:name="com.lanxin.jet.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -14,13 +14,13 @@
         tools:ignore="GoogleAppIndexingWarning">
         <meta-data android:name="serverHost" android:value="http://192.168.1.2:8001/" />
         <meta-data android:name="onlineSync" android:value="true" />
-        <activity android:name=".ActivityMain">
+        <activity android:name="com.lanxin.jet.ActivityMain">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ActivityTemp" />
+        <activity android:name="com.lanxin.jet.ActivityTemp" />
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />

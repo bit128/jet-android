@@ -1,4 +1,4 @@
-package lanxin.com.jet;
+package com.lanxin.jet;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("lanxin.com.jet", appContext.getPackageName());
+        assertEquals("com.com.com.jet", appContext.getPackageName());
     }
 }

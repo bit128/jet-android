@@ -1,4 +1,4 @@
-package lanxin.com.jet;
+package com.lanxin.jet;
 
 import android.annotation.SuppressLint;
 import android.os.Handler;
@@ -11,7 +11,6 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -23,38 +22,16 @@ import java.util.concurrent.Executors;
 public class JetVersion {
 
     private JetResource jetResource;
-    //protected JSONObject localConfig;
 
     //文件下载任务线程池（并行3组线程）
     protected ExecutorService executorService = Executors.newFixedThreadPool(3);
 
     public JetVersion(JetResource jetResource) {
         this.jetResource = jetResource;
-        /*
-        String configFile = jetResource.cachePath + CONFIG_NAME;
         File cachePath = new File(jetResource.cachePath);
         if (! cachePath.exists()) {
             cachePath.mkdirs();
-        } else {
-            File file = new File(configFile);
-            if (file.exists()) {
-                BufferedReader bufferedReader;
-                StringBuilder stringBuilder = new StringBuilder();
-                try {
-                    bufferedReader = new BufferedReader(new FileReader(file));
-                    String read;
-                    while ((read = bufferedReader.readLine()) != null) {
-                        stringBuilder.append(read);
-                    }
-                    bufferedReader.close();
-                    if (! stringBuilder.toString().equals("")) {
-                        localConfig = new JSONObject(stringBuilder.toString());
-                    }
-                } catch (IOException | JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }*/
+        }
     }
 
     /**
