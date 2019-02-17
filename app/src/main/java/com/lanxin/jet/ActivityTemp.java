@@ -2,8 +2,11 @@ package com.lanxin.jet;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Application;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -66,7 +69,20 @@ public class ActivityTemp extends Activity {
                         if (i != -1) {
                             pageName = pageName.substring(0, i);
                         }
-                        Intent intent = new Intent(ActivityTemp.this, ActivityTemp.class);
+                        //尝试加载原生页面
+                        Class activity = null;
+                        String className = "Activity" + pageName.substring(0,1).toUpperCase() + pageName.substring(1);
+                        try {
+                            activity = Class.forName(getPackageName() + "." + className);
+                        } catch (ClassNotFoundException e) {
+                            Log.i("---->", "原生页面未找到");
+                        }
+                        Intent intent;
+                        if (activity != null) {
+                            intent = new Intent(ActivityTemp.this, activity);
+                        } else {
+                            intent = new Intent(ActivityTemp.this, ActivityTemp.class);
+                        }
                         intent.putExtra("pageUrl", url);
                         startActivity(intent);
                     }
