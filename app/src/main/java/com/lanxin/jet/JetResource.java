@@ -21,11 +21,12 @@ import java.util.regex.Pattern;
 public class JetResource {
 
     public static String DEFAULT_PAGE   = "app-page:home";
-    public static String CONFIG_NAME    = "version.json";
+    public static String CONFIG_NAME    = "version";
     public static String SYNC_LIST      = "sync_list";
 
     public String serverHost;
     public boolean onlineSync           = false;
+    public int configVersion            = 1;
     public String cachePath             = "";
 
     private Context context;
@@ -48,6 +49,7 @@ public class JetResource {
             ApplicationInfo applicationInfo = context.getPackageManager()
                     .getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
             onlineSync = applicationInfo.metaData.getBoolean("onlineSync");
+            configVersion = applicationInfo.metaData.getInt("configVersion");
             //已经开启了在线同步功能
             if (onlineSync) {
                 serverHost = applicationInfo.metaData.getString("serverHost");
@@ -58,7 +60,7 @@ public class JetResource {
                         if (! cachePath.equals("")) {
                             cachePath += "/" + context.getPackageName() + "/caches/";
                             //加载本地配置文件
-                            File file = new File(cachePath + CONFIG_NAME);
+                            File file = new File(cachePath + CONFIG_NAME + configVersion + ".json");
                             if (file.exists()) {
                                 BufferedReader bufferedReader;
                                 StringBuilder stringBuilder = new StringBuilder();

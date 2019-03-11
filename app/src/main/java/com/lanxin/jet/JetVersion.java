@@ -68,7 +68,7 @@ public class JetVersion {
                         }
                         //更新本地版本库
                         if (changeConfig) {
-                            File file = new File(jetResource.cachePath + jetResource.CONFIG_NAME);
+                            File file = new File(jetResource.cachePath + jetResource.CONFIG_NAME + jetResource.configVersion + ".json");
                             file.createNewFile();
                             FileOutputStream os = new FileOutputStream(file);
                             os.write(result.getBytes("UTF-8"));
@@ -86,7 +86,7 @@ public class JetVersion {
             public void run() {
                 StringBuilder stringBuilder = new StringBuilder();
                 try {
-                    URL url = new URL(jetResource.serverHost + "getConfig");
+                    URL url = new URL(jetResource.serverHost + "getConfig/" + jetResource.configVersion);
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.connect();
                     if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
