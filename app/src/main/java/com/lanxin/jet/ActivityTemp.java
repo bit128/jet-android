@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.webkit.JavascriptInterface;
 import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceResponse;
@@ -34,6 +35,11 @@ public class ActivityTemp extends Activity {
         setContentView(R.layout.activity_temp);
         webView = findViewById(R.id.webView);
         webView.getSettings().setJavaScriptEnabled(true);
+        //默认js桥接（目的让js可以检测出平台）
+        webView.addJavascriptInterface(new Object(){
+            @JavascriptInterface
+            public void initWebkit() {}
+        }, "android");
         //绑定原生js弹窗
         bindJSWindow();
         //页面路由

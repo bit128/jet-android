@@ -11,10 +11,10 @@ var Jet = function() {
 Jet.prototype = {
     constructor: Jet,
     deviceType : function(){
-        if (window.webkit) {
-            return 2;
-        } else if (window.android) {
+        if (window.android) {
             return 1;
+        } else if (window.webkit) {
+            return 2;
         }
         return 0;
     },
@@ -69,7 +69,6 @@ Jet.prototype = {
      * @param params    桥接参数
      * --- 参考值 ---
      * {
-     *  //如果存在，则表示有回调
      *  "trackId": 16
      *  //如果存在trackId，则回调名称为name+Callback
      *  //例如updateFile上传文件的默认回调为：updateFileCallback

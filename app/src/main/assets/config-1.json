@@ -1,0 +1,14 @@
+{
+    "version":              "1.0",
+    "build_ard":            1,
+    "build_ios":            1,
+    "sync_list": {
+        "jet.js":           6,
+        "jet.css":          2,
+        "pure-min.css":     1,
+        "vue-min.js":       1,
+        "home.html":        16,
+        "param.html":       1,
+        "login.html":       13
+    }
+}

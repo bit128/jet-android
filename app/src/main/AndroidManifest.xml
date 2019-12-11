@@ -12,7 +12,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <meta-data android:name="serverHost" android:value="http://192.168.1.2:8001/" />
-        <meta-data android:name="onlineSync" android:value="true" />
+        <meta-data android:name="onlineSync" android:value="false" />
         <meta-data android:name="configVersion" android:value="1" />
         <activity android:name="com.lanxin.jet.ActivityMain">
             <intent-filter>
