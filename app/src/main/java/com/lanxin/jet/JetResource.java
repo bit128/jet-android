@@ -112,17 +112,17 @@ public class JetResource {
             pageParams = pageName.substring(i + 1);
             pageName = pageName.substring(0, i);
         }
-        String content = loadFile(pageName + ".html");
+        StringBuilder content = loadFile(pageName + ".html");
         //匹配资源文件
         Matcher matcher = Pattern.compile("<asset>([\\w\\-\\.]*?)<\\/asset>").matcher(content);
         while (matcher.find()) {
             String sourceFile = matcher.group(1);
             String extName = sourceFile.substring(sourceFile.lastIndexOf(".") + 1);
             if (extName.equals("css")) {
-                content = content.replace(matcher.group(0), "<style type=\"text/css\">"
+                stringBuilderReplace(content, matcher.group(0), "<style type=\"text/css\">"
                         +loadFile(matcher.group(1))+"</style>");
             } else if (extName.equals("js")) {
-                content = content.replace(matcher.group(0), "<script type=\"text/javascript\">"
+                stringBuilderReplace(content, matcher.group(0), "<script type=\"text/javascript\">"
                         +loadFile(matcher.group(1))+"</script>");
             }
         }
@@ -132,11 +132,11 @@ public class JetResource {
             for (String item : paramList) {
                 int j = item.indexOf("=");
                 if (j != -1) {
-                    content = content.replace("#"+item.substring(0,j)+"#", item.substring(j+1));
+                    stringBuilderReplace(content, "#"+item.substring(0,j)+"#", item.substring(j+1));
                 }
             }
         }
-        return content;
+        return content.toString();
     }
 
     /**
@@ -144,7 +144,7 @@ public class JetResource {
      * @param fileName 文件名
      * @return
      */
-    private String loadFile(String fileName) {
+    private StringBuilder loadFile(String fileName) {
         StringBuilder stringBuilder = new StringBuilder();
         try {
             BufferedReader bufferedReader;
@@ -168,6 +168,21 @@ public class JetResource {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return stringBuilder.toString();
+        return stringBuilder;
+    }
+
+    /**
+     * StringBuilder字符串替换
+     * @param stringBuilder
+     * @param search
+     * @param target
+     */
+    private static void stringBuilderReplace(StringBuilder stringBuilder, String search, String target) {
+        int len = search.length();
+        int start;
+        while ((start = stringBuilder.indexOf(search)) > -1) {
+            stringBuilder.delete(start, start + len);
+            stringBuilder.insert(start, target);
+        }
     }
 }
